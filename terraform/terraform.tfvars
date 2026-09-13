@@ -1,0 +1,8 @@
+kubeconfig_path  = "~/.kube/config"
+kube_context     = "minikube"
+namespace        = "score-api"
+release_name     = "score-api"
+image_repository = "score-api"
+image_tag        = "local"
+ingress_host     = "score-api.local"
+secret_name      = "score-api-basic-auth"
