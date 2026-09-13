@@ -27,7 +27,7 @@ This pipeline script:
 
 After running `deploy.sh`, run `minikube tunnel` in a separate terminal first.
 
-###1. Health check
+### 1. Health check
 - Linux/macOS:
 ```bash
 curl --resolve score-api.local:80:127.0.0.1 http://score-api.local/healthz
@@ -37,7 +37,7 @@ curl --resolve score-api.local:80:127.0.0.1 http://score-api.local/healthz
 Invoke-WebRequest -Uri "http://127.0.0.1/healthz" -Headers @{ Host = "score-api.local" }
 ```
 
-###2. Decision API test
+### 2. Decision API test
 - Linux/macOS:
 ```bash
 # Decision API with correct password
@@ -85,7 +85,7 @@ Invoke-WebRequest -Uri "http://127.0.0.1/decision" `
   -Body '{"client_id": "CL-0001", "amount": 1500}'
 ```
 
-###3. Inspect the workload directly
+### 3. Inspect the workload directly
 ```bash
 # Pods status
 kubectl get pods -n score-api
