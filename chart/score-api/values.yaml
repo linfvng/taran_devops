@@ -1,0 +1,72 @@
+replicaCount: 1
+
+image:
+  repository: score-api
+  tag: local
+  pullPolicy: IfNotPresent
+
+containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  host: score-api.local
+  path: /
+  pathType: Prefix
+  tls:
+    enabled: false
+    secretName: ""
+
+env:
+  logLevel: "info"
+  serviceVersion: "local"
+
+# BASIC_AUTH_PASSWORD is only the NAME of a Secret that already exists in the cluster.
+auth:
+  existingSecret: "score-api-basic-auth"
+  secretPasswordKey: "BASIC_AUTH_PASSWORD"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 250m
+    memory: 128Mi
+
+probes:
+  liveness:
+    path: /healthz
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+  readiness:
+    path: /healthz
+    initialDelaySeconds: 3
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+podAnnotations: {}
+podSecurityContext:
+  runAsNonRoot: true
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  capabilities:
+    drop: ["ALL"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
